@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+#thetable
+{
+        margin-left: auto;
+	margin-right: auto;
+}
+#msgarea{
+    min-height:20px
+    }
+.invisible { display: none; }
+
+.movebutton {  width: 100px; height: 100px;  }
+.movebutton button {  width: 100px; height: 100px;  background-image: url(redarrow.svg);}
+</style>
+<script type="application/javascript"> <![CDATA[
+
+ var STATE = {
+      movecss : {},  
+      whoseturn : "r" //r or b
+   };
+
+
+function flipcolor(){
+    if(STATE.whoseturn === "r"){
+        STATE.whoseturn = "b";
+        var redre = /red/;
+        document.getElementById("msgarea").textContent =  document.getElementById("msgarea").textContent.replace(redre, "black");
+
+        var oldcsstext =  STATE.movecss.cssText;
+        var newtext = STATE.movecss.cssText.replace(redre, "black");
+        STATE.movecss.cssText = newtext;
+        console.log("changed cssText from\n "+oldcsstext+" \nto \n"+STATE.movecss.cssText+" \nshould be\n "+newtext);
+    }else{
+        STATE.whoseturn = "r";
+        var blackre = /black/;
+
+        document.getElementById("msgarea").textContent = document.getElementById("msgarea").textContent.replace(blackre, "red");
+        var oldcsstext =  STATE.movecss.cssText;
+        var newtext = STATE.movecss.cssText.replace(blackre, "red");
+        STATE.movecss.cssText = newtext;
+        console.log("changed cssText from\n "+oldcsstext+" \nto \n"+STATE.movecss.cssText+" \nshould be\n "+newtext);
+    }
+}
+
+ function createBoard(){      //called once
+  //first find the css for the move button
+   for(var ssridx in document.styleSheets[0].cssRules){
+       var ssr = document.styleSheets[0].cssRules[ssridx];
+       //console.log("ssr: "+ssr);
+       if (ssr.selectorText === ".movebutton button" ){
+          STATE.movecss = ssr;
+           console.log("found: "+ssr);
+          break;
+       }
+   }
+
+}
+]]>
+</script>
+
+</head>
+<body onload="createBoard()" >
+<p  id="msgarea">
+red's turn
+</p>
+<table id="thetable">
+<tr><td class="movebutton"><button onclick="flipcolor(); return false;"/> </td></tr>
+</table>
+
+
+</body></html>

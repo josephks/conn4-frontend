@@ -1,18 +1,94 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <title>Home</title>
-  </head>
-  <body class="lift:content_id=main">
-    <div id="main" class="lift:surround?with=default;at=content">
-      <h2>Welcome to your project!</h2>
-      <p>
-	<span class="lift:helloWorld.howdy">
-	  Welcome to your Lift app at <span id="time">Time goes here</span>
-	</span>
-      </p>
-    </div>
-  </body>
-</html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+#thetable
+{
+	margin-left: 10%;
+	margin-right: 10%;
+margin-left: auto;
+	margin-right: auto;
+}
+.invisible { display: none; }
+.emptycell { background-color: yellow; width: 100px; height: 100px; }
+</style>
+<script type="application/javascript"> <![CDATA[
 
+//var  createBoard = function(){
+ function createBoard(){
+  var ir = 0;
+  var ic = 0;
+  var thetable = document.getElementById("thetable");
+  var rows =  parseInt(  document.getElementById("rows").value);
+  var cols =  parseInt( document.getElementById("cols").value);
+
+     //  msgbox.value = "before loop rows: " + rows + " cols: " + cols ;
+ var buttonrow  = document.createElement("tr");
+ for(ic = 1; ic <= cols ; ic++){
+ var newtd = document.createElement("td");
+        newtd.className = "movebutton";
+        newrow.appendChild(newtd);
+var objelm =   document.createElement("object");
+         objelm.setAttribute("data","redarrow.svg");
+        objelm.setAttribute("type","image/svg+xml");
+        newtd.appendChild(objelm);
+
+  }
+
+  for(ir = rows; ir > 0 ; ir--){
+    var newrow = document.createElement("tr");
+    thetable.appendChild(newrow);
+    for(ic = 1; ic <= cols ; ic++){
+        var newtd = document.createElement("td");
+        newtd.setAttribute("id","row"+ir+"col"+ic);
+        newtd.className = "emptycell";
+        newrow.appendChild(newtd);
+       // msgbox.value = "doing row " + ir + " col " + ic ;
+        var svgelm =   document.createElementNS("http://www.w3.org/2000/svg","svg");
+         svgelm.setAttribute("xmlns","http://www.w3.org/2000/svg");
+        svgelm.setAttribute("version","1.1");
+        newtd.appendChild(svgelm);
+        var circleelm =  document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circleelm.setAttribute("cx", "50");   
+        circleelm.setAttribute("cy", "50");   
+        circleelm.setAttribute("r", "40");   
+        circleelm.setAttribute("stroke", "black");   
+      circleelm.setAttribute("stroke-width","2");   
+      circleelm.setAttribute("fill", "grey");   
+       svgelm.appendChild(circleelm);
+    }
+  }
+ document.getElementById("theform").className = "invisible" ;
+}
+]]>
+</script>
+
+</head>
+<body>
+<form id="theform" action="#">
+rows: <input type="text" id="rows" /> <br />
+cols: <input type="text" id="cols" /> <br />
+<input type="submit" onclick="createBoard()" /><br />
+</form>
+<p style="min-height:100px;" id="msgarea">
+</p>
+<table id="thetable">
+
+</table>
+<p>
+test area:
+<table><tr><td class="emptycell">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+   <circle cx="50" cy="50" r="40" stroke="black" stroke-width="2" fill="red" />
+</svg> 
+ </td>
+<td class="emptycell">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+   <circle cx="50" cy="50" r="40" stroke="black" stroke-width="2" fill="blue" />
+</svg> 
+ </td>
+</tr></table>
+</p>
+
+</body></html>
