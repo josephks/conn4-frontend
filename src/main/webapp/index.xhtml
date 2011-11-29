@@ -31,6 +31,7 @@ border-collapse: collapse;
 .movebutton {  width: 100px; height: 100px;  }
 .movebutton button {  width: 100px; height: 100px;  background-image: url(redarrow.svg);}
 </style>
+                 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>
 <script type="application/javascript"> <![CDATA[
 
 function boardToString(){
@@ -57,7 +58,10 @@ function boardToString(){
 }
 
 function getHints(){
-  document.getElementById("msgarea").textContent += " boardToString(): "+ boardToString();
+  document.getElementById("msgarea").textContent += " boardToString(): "+ boardToString();  //placeholder
+  jQuery.get( "/api/url/goes/here", { "key" :   boardToString() }, function(data, textStatus, jqXHR){
+           //set hint data here
+   )  , json
 }
 
 function getSvgObjElem(filename){
