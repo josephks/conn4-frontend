@@ -7,12 +7,22 @@
 {
         margin-left: auto;
 	margin-right: auto;
+border-collapse: collapse;
+ 
 }
+#thetable tr .emptycell
+{
+# border-spacing: 0;
+ border-style: inset;
+ border-width: 10px;
+
+}
+
 #msgarea{
     min-height:20px
     }
 .invisible { display: none; }
-.emptycell { background-color: yellow; width: 100px; height: 100px; background-image: url(greycircle.svg) ; }
+.emptycell { background-color: yellow; width: 100px; height: 100px; background-position: center center; background-image: url(greycircle.svg) ;border-color: yellow; }
 .redcell    { background-color: yellow; width: 100px; height: 100px; background-image: url(redcircle.svg) ;}
 .blackcell    { background-color: yellow; width: 100px; height: 100px; background-image: url(blackcircle.svg) ;}
 
@@ -22,6 +32,33 @@
 .movebutton button {  width: 100px; height: 100px;  background-image: url(redarrow.svg);}
 </style>
 <script type="application/javascript"> <![CDATA[
+
+function boardToString(){
+  var ans = "";
+
+  for(var ir = CONN4.rows; ir > 0 ; ir--){
+    for(var ic = 1; ic <= CONN4.cols ; ic++){
+        var tdid = "row"+ir+"col"+ic;
+        switch(document.getElementById(tdid).className){
+           case "redcell" :
+              ans += "R";
+           break;
+           case "blackcell" :
+              ans += "B";
+           break;
+           default:
+              ans += " ";
+       }//switch
+      ans += "\n";
+      console.log("classname for "+tdid+"is: "+document.getElementById(tdid).className);
+    } //for ic
+  } //for ir
+  return ans;
+}
+
+function getHints(){
+  document.getElementById("msgarea").textContent += " boardToString(): "+ boardToString();
+}
 
 function getSvgObjElem(filename){
   var objelm = document.createElement("object");
@@ -121,6 +158,8 @@ function getSvgObjElem(filename){
   var thetable = document.getElementById("thetable");
   var rows =  parseInt(  document.getElementById("rows").value);
   var cols =  parseInt( document.getElementById("cols").value);
+  CONN4.rows = rows;
+  CONN4.cols = cols;
 
  // var boarddata = Array(cols); //array of arrays
   var boardcols = Array(cols);
@@ -183,6 +222,7 @@ function getSvgObjElem(filename){
     }
   }
   document.getElementById("theform").className = "invisible" ;
+  document.getElementById("hintbutton").className = "" ;
 }
 ]]>
 </script>
@@ -195,6 +235,8 @@ cols: <input type="text" id="cols" /> <br />
 <input type="submit" onclick="createBoard()" /><br />
 </form>
 <p  id="msgarea">
+</p>
+<p id="hintbutton" class="invisible"><button onclick="getHints()">hint</button>
 </p>
 <table id="thetable">
 
