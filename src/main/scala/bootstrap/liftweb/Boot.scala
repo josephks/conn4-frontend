@@ -19,22 +19,24 @@ import code.model._
  */
 class Boot {
   def boot {
-    if (!DB.jndiJdbcConnAvailable_?) {
-      val vendor = 
-	new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
-			     Props.get("db.url") openOr 
-			     "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
-			     Props.get("db.user"), Props.get("db.password"))
-
-      LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
-
-      DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
-    }
+    // make sure you call this before trying to use any of your Mongo model classes.
+    MongoConfig.init
+//    if (!DB.jndiJdbcConnAvailable_?) {
+//      val vendor =
+//	          new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
+//			     Props.get("db.url") openOr
+//			     "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
+//			     Props.get("db.user"), Props.get("db.password"))
+//
+//      LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
+//
+//      DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
+//    }
 
     // Use Lift's Mapper ORM to populate the database
     // you don't need to use Mapper to use Lift... use
     // any ORM you want
-    Schemifier.schemify(true, Schemifier.infoF _, User)
+//    Schemifier.schemify(true, Schemifier.infoF _, User)
 
     // where to search snippet
     LiftRules.addToPackages("code")
@@ -46,7 +48,14 @@ class Boot {
       // more complex because this menu allows anything in the
       // /static path to be visible
       Menu(Loc("Static", Link(List("static"), true, "/static/index"), 
-	       "Static Content")))
+	       "Static Content"))
+    )//SiteMap
+
+
+    LiftRules.dispatch.append {
+      case Req("api" :: "hints" :: reqdoc :: Nil , _, _) =>
+        () => code.lib.HintGetter.getHintJson(reqdoc)
+    }
 
     def sitemapMutators = User.sitemapMutator
 
