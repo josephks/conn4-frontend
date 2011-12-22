@@ -22,6 +22,8 @@ object MyBuild extends Build{
     libraryDependencies ++= Seq(
       "net.liftweb" %% "lift-webkit" % liftVersion % "compile",
       "net.liftweb" %% "lift-mapper" % liftVersion % "compile",
+      "net.liftweb" %% "lift-mongodb-record" % liftVersion % "compile",
+      "org.mongodb" % "mongo-java-driver" % "2.7.2" ,
       "org.mortbay.jetty" % "jetty" % "6.1.26" % "container",
       "junit" % "junit" % "4.7" % "test",
       "ch.qos.logback" % "logback-classic" % "0.9.26",
