@@ -1,5 +1,5 @@
 /** Project */
-name := "Lift SBT Template"
+name := "Conn4 Frontend"
 
 version := "0.1"
 
@@ -14,7 +14,7 @@ seq(webSettings :_*)
 
 
 /** Shell */
-shellPrompt := { state => System.getProperty("user.name") + "> " }
+shellPrompt := { state => System.getProperty("user.name") + ":" + state.configuration.baseDirectory + "> " }
 
 shellPrompt in ThisBuild := { state => Project.extract(state).currentRef.project + "> " }
 
